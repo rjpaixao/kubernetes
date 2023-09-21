@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: inetplace
+  name: inetplace
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  - name: distro
+    image: alpine
+    volumeMounts:
+    - mountPath: /inetplace
+      name: data-volume
+    args:
+    - sleep
+    - "3600"
+    resources:
+      limits:
+        memory: "256Mi"
+        cpu: "1.5"
+      requests:
+        memory: "64Mi"
+        cpu: "0.5"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+  - name: data-volume
+    emptyDir:
+      sizeLimit: 512Mi
